@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#4F46E5" aria-label="MusicMitra Logo" role="img">
+  <!-- Music Symbol (representing "Music") - First M - Beamed eighth notes -->
+  <g>
+    <!-- Left Note -->
+    <circle cx="20" cy="70" r="7" fill="#4F46E5"/>
+    <rect x="18" y="38" width="4" height="32" fill="#4F46E5"/>
+    <!-- Right Note -->
+    <circle cx="38" cy="70" r="7" fill="#4F46E5"/>
+    <rect x="36" y="38" width="4" height="32" fill="#4F46E5"/>
+    <!-- Beam connecting the stems -->
+    <rect x="18" y="34" width="22" height="5" fill="#4F46E5"/>
+  </g>
+  <!-- Friends Symbol (representing "Mitra" - shaking hands to form an M) - Second M -->
+  <g transform="translate(5 0)">
+    <!-- Left Figure part of M -->
+    <circle cx="60" cy="30" r="5.5" fill="#4F46E5"/>
+    <line x1="60" y1="35.5" x2="60" y2="65" stroke="#4F46E5" stroke-width="5"/>
+    <line x1="60" y1="48" x2="72.5" y2="58" stroke="#4F46E5" stroke-width="5"/>
+    <!-- Right Figure part of M -->
+    <circle cx="85" cy="30" r="5.5" fill="#4F46E5"/>
+    <line x1="85" y1="35.5" x2="85" y2="65" stroke="#4F46E5" stroke-width="5"/>
+    <line x1="85" y1="48" x2="72.5" y2="58" stroke="#4F46E5" stroke-width="5"/>
+    <!-- Handshake point -->
+    <circle cx="72.5" cy="59" r="4.5" fill="#4F46E5" />
+  </g>
+  <!-- Text "MusicMitra" below the graphical elements -->
+  <text x="50" y="92" font-family="Belleza, Alegreya, serif" font-size="12" text-anchor="middle" fill="#4F46E5">MusicMitra</text>
+</svg> 
