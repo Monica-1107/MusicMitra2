@@ -22,7 +22,7 @@ const fileToGenerativePart = async (file: File): Promise<{ inlineData: { data: s
 };
 
 export const generateLyrics = async (audioFile: File): Promise<LyricsResponse> => {
-  const apiKey = "AIzaSyBNHxK9kMz3hyejRwyzZHXbLKYWHSLkZSQ"
+  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || "AIzaSyA4GxQm6KBMcMn9ejI-hdsly8OHk63XT-s"
   if (!apiKey) {
     throw new Error("API Key is missing. Please check your .env file.");
   }

@@ -31,8 +31,16 @@ const LyricsDisplay: React.FC<LyricsDisplayProps> = ({
   onBack,
   isLoading = false
 }) => {
+  console.log('LyricsDisplay received data:', data);
+  console.log('LyricsDisplay received originalFile:', originalFile);
+  console.log('LyricsDisplay received instrumentalFile:', instrumentalFile);
+  
   // Destructure with fallbacks
   const { metadata = { title: 'Unknown', artist: 'Unknown' }, lyrics = [] } = data || {};
+  
+  console.log('Destructured metadata:', metadata);
+  console.log('Destructured lyrics count:', lyrics.length);
+  console.log('First lyric line:', lyrics[0]);
 
   // State declarations
   const [isLoadingState, setIsLoadingState] = useState<boolean>(isLoading);
@@ -685,7 +693,7 @@ if (mics.length === 0) {
               type="range"
               min="0"
               max={duration || 100}
-              step="0.1"
+              step="0.01"
               value={currentTime}
               onChange={(e) => {
                 const newTime = parseFloat(e.target.value);
@@ -705,57 +713,63 @@ if (mics.length === 0) {
 
       {/* Lyrics Display */}
       <div ref={lyricsContainerRef} className="space-y-6 relative px-4">
-        {lyricsWithSeconds.map((line, index) => {
-          const isActive = index === activeIndex;
-          return (
-            <div 
-              key={index}
-              ref={isActive ? activeLineRef : null}
-              onClick={() => {
-                if(audioRef.current) {
-                  audioRef.current.currentTime = line.seconds || 0;
-                  if(!isPlaying) {
-                    audioRef.current.play().catch(error => {
-                      console.error('Error playing audio:', error);
-                    });
-                    setIsPlaying(true);
+        {lyricsWithSeconds.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-slate-400">No lyrics available. Please upload an audio file to generate lyrics.</p>
+          </div>
+        ) : (
+          lyricsWithSeconds.map((line, index) => {
+            const isActive = index === activeIndex;
+            return (
+              <div 
+                key={index}
+                ref={isActive ? activeLineRef : null}
+                onClick={() => {
+                  if(audioRef.current) {
+                    audioRef.current.currentTime = line.seconds || 0;
+                    if(!isPlaying) {
+                      audioRef.current.play().catch(error => {
+                        console.error('Error playing audio:', error);
+                      });
+                      setIsPlaying(true);
+                    }
                   }
-                }
-              }}
-              className={`group relative p-6 rounded-2xl transition-all duration-500 cursor-pointer border
-                ${isActive 
-                  ? 'bg-slate-800/80 border-primary/50 shadow-[0_0_30px_-5px_rgba(255,87,34,0.3)] scale-[1.02] z-10' 
-                  : 'bg-transparent border-transparent hover:bg-slate-900/50 hover:border-slate-800 opacity-60 hover:opacity-100'
-                }
-              `}
-            >
-              <div className={`absolute left-4 top-6 text-xs font-mono ${isActive ? 'text-primary' : 'text-slate-600'}`}>
-                {line.timestamp}
-              </div>
-              <div className="pl-12">
-                <h3 className={`font-telugu text-2xl md:text-3xl leading-relaxed mb-3 transition-colors ${isActive ? 'text-white font-medium' : 'text-slate-300'}`}>
-                  {line.telugu}
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                  <div className="flex items-start gap-2">
-                    <Mic size={14} className={`mt-1 ${isActive ? 'text-primary/70' : 'text-slate-600'}`} />
-                    <p className={`text-lg italic ${isActive ? 'text-slate-300' : 'text-slate-500'}`}>
-                      {line.transliteration}
-                    </p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <BookOpen size={14} className={`mt-1 ${isActive ? 'text-blue-400/70' : 'text-slate-600'}`} />
-                    <p className={`text-sm md:text-base ${isActive ? 'text-slate-400' : 'text-slate-600'}`}>
-                      {line.translation}
-                    </p>
+                }}
+                className={`group relative p-6 rounded-2xl transition-all duration-500 cursor-pointer border
+                  ${isActive 
+                    ? 'bg-slate-800/80 border-primary/50 shadow-[0_0_30px_-5px_rgba(255,87,34,0.3)] scale-[1.02] z-10' 
+                    : 'bg-transparent border-transparent hover:bg-slate-900/50 hover:border-slate-800 opacity-60 hover:opacity-100'
+                  }
+                `}
+              >
+                <div className={`absolute left-4 top-6 text-xs font-mono ${isActive ? 'text-primary' : 'text-slate-600'}`}>
+                  {line.timestamp}
+                </div>
+                <div className="pl-12">
+                  <h3 className={`font-telugu text-2xl md:text-3xl leading-relaxed mb-3 transition-colors ${isActive ? 'text-white font-medium' : 'text-slate-300'}`}>
+                    {line.telugu}
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                    <div className="flex items-start gap-2">
+                      <Mic size={14} className={`mt-1 ${isActive ? 'text-primary/70' : 'text-slate-600'}`} />
+                      <p className={`text-lg italic ${isActive ? 'text-slate-300' : 'text-slate-500'}`}>
+                        {line.transliteration}
+                      </p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <BookOpen size={14} className={`mt-1 ${isActive ? 'text-blue-400/70' : 'text-slate-600'}`} />
+                      <p className={`text-sm md:text-base ${isActive ? 'text-slate-400' : 'text-slate-600'}`}>
+                        {line.translation}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
-      
+    
     </div>
   );
 };
